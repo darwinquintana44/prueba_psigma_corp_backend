@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TransporteTrConductores extends Migration
+class TransporteTrSupervisores extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class TransporteTrConductores extends Migration
      */
     public function up()
     {
-        Schema::create('transporte_tr_conductores', function (Blueprint $table) {
+        Schema::create('transporte_tr_supervisores', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('ciudad_nacimiento');
+            $table->bigInteger('global_tr_municipios_id');
             $table->string('nombres', 120);
             $table->string('apellidos', 120);
             $table->string('identificacion', 120)->unique();
@@ -24,7 +24,7 @@ class TransporteTrConductores extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('ciudad_nacimiento')->references('id')->on('global_tr_municipios');
+            $table->foreign('global_tr_municipios_id')->references('id')->on('global_tr_municipios');
         });
     }
 
@@ -35,6 +35,6 @@ class TransporteTrConductores extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transporte_tr_conductores');
+        Schema::dropIfExists('transporte_tr_supervisores');
     }
 }

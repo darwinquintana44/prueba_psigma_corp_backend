@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Globales;
+namespace App\Http\Controllers\Transportes;
 
 use App\Http\Controllers\Controller;
-use App\Models\Globales\GlobalTrPaises;
-use Illuminate\Http\Request;
+use App\Models\Transportes\TransporteTrSupervisores;
 
-class GlobalTrPaisesController extends Controller
+class TransporteTrSupervisoresController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class GlobalTrPaisesController extends Controller
      */
     public function index()
     {
-        $instancia = new GlobalTrPaises();
-
+        $instancia = new TransporteTrSupervisores();
         return response(['data' => $instancia->listarTodo()]);
     }
 }

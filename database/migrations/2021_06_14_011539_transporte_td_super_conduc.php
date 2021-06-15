@@ -15,7 +15,13 @@ class TransporteTdSuperConduc extends Migration
     {
         Schema::create('transporte_td_super_conduc', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_supervisor');
+            $table->bigInteger('id_conductor');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('id_supervisor')->references('id')->on('transporte_tr_supervisores');
+            $table->foreign('id_conductor')->references('id')->on('transporte_tr_conductores');
         });
     }
 

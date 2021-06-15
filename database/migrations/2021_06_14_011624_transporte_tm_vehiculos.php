@@ -15,7 +15,11 @@ class TransporteTmVehiculos extends Migration
     {
         Schema::create('transporte_tm_vehiculos', function (Blueprint $table) {
             $table->id();
+            $table->string('descripcion', 120);
+            $table->string('codigo', 120)->unique();
+            $table->string('color', 120)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

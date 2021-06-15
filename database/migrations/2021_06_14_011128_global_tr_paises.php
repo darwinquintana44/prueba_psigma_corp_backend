@@ -15,7 +15,11 @@ class GlobalTrPaises extends Migration
     {
         Schema::create('global_tr_paises', function (Blueprint $table) {
             $table->id();
+            $table->string('descripcion', 120);
+            $table->string('sigla', 5)->nullable();
+            $table->integer('codigo')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
