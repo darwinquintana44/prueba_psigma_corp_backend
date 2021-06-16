@@ -26,4 +26,9 @@ class TransporteTrSupervisores extends Model
     public function listarTodo() {
         return self::all();
     }
+
+    // consultamos todos los datos de la tabla de manera ordenada
+    public function listarTodoOrdenado(){
+        return self::orderBy('apellidos', 'asc')->get();
+    }
 }

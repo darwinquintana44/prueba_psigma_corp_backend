@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Transportes;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transportes\TransporteTdVehiConduc;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TransporteTdVehiConducController extends Controller
 {
@@ -12,74 +15,31 @@ class TransporteTdVehiConducController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-    }
+        DB::beginTransaction();
+        try {
+            date_default_timezone_set('America/Bogota');
+            $reglas = [
+                'id_vehiculo' => 'required',
+                'id_conductor' => 'required'
+            ];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            $validaciones = $request->validate($reglas);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+            $instanciaSuperConduc = new TransporteTdVehiConduc();
+            $requestAll = $request->all();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+            // realizamos el insert a la tabla
+            $instanciaSuperConduc->crearDato($requestAll);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            DB::commit();
+            // realizamos el insert
+            return response(['data' => 'Los datos se han creado de maneja exitosa', 'status' => 200]);
+        }catch (\Exception $e){
+            Log::info($e);
+            DB::rollBack();
+            return response(['data' => 'Ha ocurrido un error con la creacion del resgistro', 'status' => 500]);
+        }
     }
 }

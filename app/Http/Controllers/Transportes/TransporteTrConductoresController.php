@@ -21,7 +21,7 @@ class TransporteTrConductoresController extends Controller
         // generamos una instancia del modelo a utilizar
         $instancia = new TransporteTrConductores();
         // devolvemos la respuesta
-        return response(['data' => $instancia->listarTodo()]);
+        return response(['data' => $instancia->listarTodo(), 'status' => 200]);
     }
 
     /**
@@ -52,11 +52,11 @@ class TransporteTrConductoresController extends Controller
 
             DB::commit();
 
-            return response(['data' => $crearRegistro]);
+            return response(['data' => $crearRegistro, 'status' => 200]);
         }catch (\Exception $e){
             Log::info($e);
             DB::rollBack();
-            return response(['data' => 'Se ha presentado un error al momento de crear el registro']);
+            return response(['data' => 'Se ha presentado un error al momento de crear el registro', 'status' => 500]);
         }
 
     }
@@ -71,7 +71,7 @@ class TransporteTrConductoresController extends Controller
     {
         // generamos una instancia del modelo a utilizar
         $instancia = new TransporteTrConductores();
-        return response(['data' => $instancia->listarTodoPorId($id)]);
+        return response(['data' => $instancia->listarTodoPorId($id), 'status' => 200]);
     }
 
     /**
@@ -109,11 +109,11 @@ class TransporteTrConductoresController extends Controller
 
             DB::commit();
 
-            return response(['data' => $actualizaRegistro]);
+            return response(['data' => $actualizaRegistro, 'status' => 200]);
         }catch (\Exception $e){
             Log::info($e);
             DB::rollBack();
-            return response(['data' => 'Se ha presentado un error al momento de actualizar el registro']);
+            return response(['data' => 'Se ha presentado un error al momento de actualizar el registro', 'status' => 500]);
         }
     }
 
@@ -129,6 +129,15 @@ class TransporteTrConductoresController extends Controller
         // generamos una instancia del modelo a utilizar
         $instancia = new TransporteTrConductores();
 
-        return response(['data' => $instancia->eliminaDatos($id)]);
+        return response(['data' => $instancia->eliminaDatos($id), 'status' => 200]);
+    }
+
+    /*
+     * metodo que va a devolver los conductores que tiene supervisor asignado
+     * */
+    public function supervisorAsignado($id){
+        $instancia = new TransporteTrConductores();
+
+        return response(['data' => $instancia->supervisorAsignado($id), 'status' => 200]);
     }
 }

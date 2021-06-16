@@ -81,4 +81,13 @@ class TransporteTrConductores extends Model
     {
         return self::where('id', '=', $id)->delete();
     }
+
+    // metodo que va a buscar segun el id del conductores si tiene un supervisor asignado
+    public function supervisorAsignado($id){
+        return self::join('transporte_td_super_conduc as supcon', 'transporte_tr_conductores.id', 'supcon.id_conductor')
+            ->select('transporte_tr_conductores.*', 'supcon.deleted_at as fecha_eliminacion', 'supcon.created_at as fecha_asignacion', 'supcon.id as id_asignacion')
+            ->where('transporte_tr_conductores.id', $id)
+            ->orderBy('supcon.id', 'desc')
+            ->get();
+    }
 }

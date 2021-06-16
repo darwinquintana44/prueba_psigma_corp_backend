@@ -15,6 +15,11 @@ class TransporteTrSupervisoresController extends Controller
     public function index()
     {
         $instancia = new TransporteTrSupervisores();
-        return response(['data' => $instancia->listarTodo()]);
+        return response(['data' => $instancia->listarTodoOrdenado(), 'status' => 200]);
+    }
+    public function listadoGeneral()
+    {
+        $instancia = new TransporteTrSupervisores();
+        return response(['data' => $instancia->listarTodo(), 'status' => 200]);
     }
 }
