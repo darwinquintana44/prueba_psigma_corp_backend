@@ -8,6 +8,17 @@ use App\Models\Globales\GlobalTrMunicipios;
 class GlobalTrMunicipiosController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $instancia = new GlobalTrMunicipios();
+
+        return response(['data' => $instancia->listarTodo(), 'status' => 200]);
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -16,6 +27,6 @@ class GlobalTrMunicipiosController extends Controller
     public function show($id)
     {
         $instancia = new GlobalTrMunicipios();
-        return response(['data' => $instancia->listarTodoPorIdDepartamento($id)]);
+        return response(['data' => $instancia->listarTodoPorIdDepartamento($id), 'status' => 200]);
     }
 }

@@ -17,6 +17,6 @@ class GlobalTrPaisesController extends Controller
     {
         $instancia = new GlobalTrPaises();
 
-        return response(['data' => $instancia->listarTodo()]);
+        return response(['data' => $instancia->listarTodo(), 'status' => 200]);
     }
 }

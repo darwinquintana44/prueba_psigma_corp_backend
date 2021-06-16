@@ -26,23 +26,24 @@ class TransporteTrConductores extends Model
     // consulta todos los datos de la tabla
     public function listarTodo(){
         return self::join('global_tr_municipios as mun', 'mun.id', 'transporte_tr_conductores.ciudad_nacimiento')
-            ->join('global_tr_departamentos as dep', 'dep.id', 'mun.id_departamento')
-            ->join('global_tr_paises as pai', 'pai.id', 'dep.id_pais')
+            ->join('global_tr_departamentos as dep', 'dep.id', 'mun.global_tr_departamentos_id')
+            ->join('global_tr_paises as pai', 'pai.id', 'dep.global_tr_paises_id')
             ->select('transporte_tr_conductores.*', 'mun.descripcion as desc_muni', 'mun.sigla as sigla_muni', 'mun.codigo as cod_muni',
                 'dep.descripcion as desc_depa', 'dep.sigla as sigla_depa', 'dep.codigo as cod_depa',
                 'pai.descripcion as desc_pais', 'pai.sigla as sigla_pais', 'pai.codigo as cod_pais')
-            ->orderBy('transporte_tr_conductores.id', 'desc')
+            ->orderBy('transporte_tr_conductores.id', 'asc')
             ->get();
     }
 
     // consultar todos los datos de la tabla segun el id
     public function listarTodoPorId($id){
-        return self::join('global_tr_municipios mun', 'mun.id', 'transporte_tr_conductores.ciudad_nacimiento')
-            ->join('global_tr_departamentos dep', 'dep.id', 'mun.id_departamento')
-            ->join('global_tr_paises pai', 'pai.id', 'dep.id_pais')
-            ->select('transporte_tr_conductores.*', 'mun.descripcion as dec_muni', 'mun.sigla as sigla_muni', 'mun.codigo as cod_muni',
-                'dep.descripcion as dec_depa', 'dep.sigla as sigla_depa', 'dep.codigo as cod_depa',
-                'pai.descripcion as dec_pais', 'pai.sigla as sigla_pais', 'pai.codigo as cod_pais')
+        return self::join('global_tr_municipios as mun', 'mun.id', 'transporte_tr_conductores.ciudad_nacimiento')
+            ->join('global_tr_departamentos as dep', 'dep.id', 'mun.global_tr_departamentos_id')
+            ->join('global_tr_paises as pai', 'pai.id', 'dep.global_tr_paises_id')
+            ->select('transporte_tr_conductores.*',
+                'mun.descripcion as dec_muni', 'mun.sigla as sigla_muni', 'mun.codigo as cod_muni', 'mun.id as id_muni',
+                'dep.descripcion as dec_depa', 'dep.sigla as sigla_depa', 'dep.codigo as cod_depa', 'dep.id as id_depa',
+                'pai.descripcion as dec_pais', 'pai.sigla as sigla_pais', 'pai.codigo as cod_pais', 'pai.id as id_pais')
             ->where('transporte_tr_conductores.id', '=', $id)
             ->get();
     }
@@ -85,9 +86,20 @@ class TransporteTrConductores extends Model
     // metodo que va a buscar segun el id del conductores si tiene un supervisor asignado
     public function supervisorAsignado($id){
         return self::join('transporte_td_super_conduc as supcon', 'transporte_tr_conductores.id', 'supcon.id_conductor')
-            ->select('transporte_tr_conductores.*', 'supcon.deleted_at as fecha_eliminacion', 'supcon.created_at as fecha_asignacion', 'supcon.id as id_asignacion')
+            ->join('transporte_tr_supervisores as sup', 'sup.id', 'supcon.id_supervisor')
+            ->select('sup.*', 'supcon.deleted_at as fecha_eliminacion', 'supcon.created_at as fecha_asignacion', 'supcon.id as id_asignacion')
             ->where('transporte_tr_conductores.id', $id)
-            ->orderBy('supcon.id', 'desc')
+            ->orderBy('supcon.id', 'asc')
+            ->get();
+    }
+
+    // metodo que va a buscar segun el id del conductores si tiene un vehiculo asignado
+    public function vehiculoAsignado($id){
+        return self::join('transporte_td_vehi_conduc as vehcon', 'transporte_tr_conductores.id', 'vehcon.id_conductor')
+            ->join('transporte_tm_vehiculos as veh', 'veh.id', 'vehcon.id_vehiculo')
+            ->select('veh.*', 'vehcon.created_at as fecha_asignacion', 'vehcon.id as id_vehiculo')
+            ->where('transporte_tr_conductores.id', $id)
+            ->orderBy('vehcon.id', 'asc')
             ->get();
     }
 }

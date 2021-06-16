@@ -32,10 +32,12 @@ Route::prefix('pais')->group(function ($router){
 });
 // GRUPO DE RUTAS PARA GLOBAL_TR_DEPARTAMENTOS
 Route::prefix('departamento')->group(function ($router){
+    Route::get('listado', [GlobalTrDepartamentosController::class, 'index']);
     Route::get('listado/{id}', [GlobalTrDepartamentosController::class, 'show']);
 });
 // GRUPO DE RUTAS PARA GLOBAL_TR_MUNICIPIOS
 Route::prefix('municipio')->group(function ($router){
+    Route::get('listado', [GlobalTrMunicipiosController::class, 'index']);
     Route::get('listado/{id}', [GlobalTrMunicipiosController::class, 'show']);
 });
 // GRUPO DE RUTAS PARA TRANSPORTE_TR_CONDUCTORES
@@ -47,6 +49,7 @@ Route::prefix('conductor')->group(function ($router){
     Route::delete('{id}', [TransporteTrConductoresController::class, 'destroy']);
 
     Route::get('{id}/supervisor', [TransporteTrConductoresController::class, 'supervisorAsignado']);
+    Route::get('{id}/vehiculo', [TransporteTrConductoresController::class, 'vehiculoAsignado']);
 });
 // GRUPO DE RUTAS PARA TRANSPORTE_TR_SUPERVISORES
 Route::prefix('supervisor')->group(function ($router){
@@ -64,5 +67,6 @@ Route::prefix('vehiculo')->group(function ($router){
 });
 // GRUPO DE RUTAS PARA TRANSPORTE_TM_VEHICULOS
 Route::prefix('asigna_vehiculo')->group(function ($router){
-    Route::post('', [TransporteTmVehiculosController::class, 'datosOrdenadosPorId']);
+    Route::get('listado', [TransporteTmVehiculosController::class, 'datosOrdenadosPorId']);
+    Route::post('', [TransporteTdVehiConducController::class, 'store']);
 });

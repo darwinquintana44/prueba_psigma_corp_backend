@@ -22,6 +22,13 @@ class GlobalTrDepartamentos extends Model
         return $this->hasMany(GlobalTrMunicipios::class);
     }
 
+    // consulta todos los datos de la tabla
+    public function listarTodo(){
+        return self::join('global_tr_paises as pais', 'pais.id', 'global_tr_departamentos.global_tr_paises_id')
+            ->select('global_tr_departamentos.*', 'pais.descripcion as desc_pais')
+            ->get();
+    }
+
     // consulta todos los datos de la tabla segun el id del pais
     public function listarTodoPorIdPais($idPais){
         return self::where('global_tr_paises_id', '=', $idPais)->orderBy('descripcion', 'asc')->get();

@@ -36,8 +36,8 @@ class TransporteTrConductoresController extends Controller
             date_default_timezone_set('America/Bogota');
             $reglas = [
                 'ciudad_nacimiento' => 'required',
-                'nombres' => 'required|min:6',
-                'apellidos' => 'required|min:6',
+                'nombres' => 'required|min:3',
+                'apellidos' => 'required|min:3',
                 'identificacion' => 'required|min:6|unique:App\Models\Transportes\TransporteTrConductores,identificacion'
             ];
 
@@ -88,8 +88,8 @@ class TransporteTrConductoresController extends Controller
             $allRequest = $request->all();
             $reglas = [
                 'ciudad_nacimiento' => 'required',
-                'nombres' => 'required|min:6',
-                'apellidos' => 'required|min:6',
+                'nombres' => 'required|min:3',
+                'apellidos' => 'required|min:3',
                 'identificacion' => 'required|min:6|unique:App\Models\Transportes\TransporteTrConductores,identificacion,'.$allRequest['id']
             ];
 
@@ -139,5 +139,14 @@ class TransporteTrConductoresController extends Controller
         $instancia = new TransporteTrConductores();
 
         return response(['data' => $instancia->supervisorAsignado($id), 'status' => 200]);
+    }
+
+    /*
+     * metodo que va a devolver los conductores que tiene vehiculos asignados
+     * */
+    public function vehiculoAsignado($id){
+        $instancia = new TransporteTrConductores();
+
+        return response(['data' => $instancia->vehiculoAsignado($id), 'status' => 200]);
     }
 }
